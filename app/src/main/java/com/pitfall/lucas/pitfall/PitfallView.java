@@ -51,6 +51,9 @@ public class PitfallView extends View implements Runnable{
         player = Player.getInstance();
         world = new World();
 
+        handler = new Handler();
+        handler.post(this);
+
     }
 
     @Override
@@ -61,7 +64,14 @@ public class PitfallView extends View implements Runnable{
     }
 
     @Override
-    public void run(){
+    public boolean onTouchEvent(MotionEvent event){
+        player.preUpdate(event);
+        return true;
+    }
 
+    @Override
+    public void run(){
+        handler.postDelayed(this, 30);
+        player.update();
     }
 }

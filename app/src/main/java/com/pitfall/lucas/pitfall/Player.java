@@ -2,6 +2,8 @@ package com.pitfall.lucas.pitfall;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
+import android.view.MotionEvent;
 
 /**
  * Created by LUCAS on 20/05/2017.
@@ -11,6 +13,7 @@ class Player{
     private static Player instance;
     private Paint brown;
     private float x, y, width, height, speedY;
+    private boolean isMoving;
 
     private Player()
     {
@@ -23,6 +26,7 @@ class Player{
         y = PitfallView.screenH * 0.8f;
 
         speedY = 7f;
+        isMoving = false;
     }
 
     public static Player getInstance()
@@ -33,7 +37,21 @@ class Player{
 
     public void draw(Canvas canvas)
     {
-        canvas.drawRect(0, 0, 100, 120, brown);
+        canvas.drawRect(x, y, x + width, y + height, brown);
+        //canvas.drawRect(5, 800, 100, y + height, brown);
+    }
+
+    public void preUpdate(MotionEvent event){
+        if(event.getAction() == MotionEvent.ACTION_UP ){
+            Log.d("EVENTO",String.valueOf(y));
+            isMoving = true;
+        }
+    }
+
+    public void update(){
+        if(isMoving){
+            y -= speedY;
+        }
     }
 
     public float GetX() { return x; }
